@@ -1,6 +1,11 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 import time
 
+# Number of experiments to carry out
+repetitions = 100
+limits_list = [250, 500, 1000, 2000, 4000] # LIMIT values to investigate
+joins_list = [1,2,3,4,5] # Which numbers of joins to investigate - between 1 and 5
+
 # First join: inner join (.)
 
 # Full query:
@@ -65,22 +70,22 @@ def prepare_inner_join_query(limit, joins):
 
 print('*****Inner join*****')
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg Bottom 75"))
 
-repetitions = 1000
-for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
-    # Create connection to dbpedia
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    # Get the output in JSON format for easy parsing
-    sparql.setReturnFormat(JSON)
-    for joins in [1, 2, 3, 4, 5]:
-
-        sparql.setQuery(prepare_inner_join_query(limit, joins))
+# Create connection to dbpedia
+sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+# Get the output in JSON format for easy parsing
+sparql.setReturnFormat(JSON)
+for limit in limits_list:
+    for joins in joins_list:
+        query = prepare_inner_join_query(limit, joins)
+        sparql.setQuery(query)
         # Do one query to get the number of matches returned
         num_results = len(sparql.query().convert()["results"]["bindings"]) 
         # Perform each query `repetitions` times to produce an average time required
         times_taken = []
         for i in range(repetitions):
+            sparql.setQuery(query)
             start = time.time()
             results = sparql.query() # Do the SPARQL query
             times_taken.append(time.time() - start)
@@ -89,12 +94,12 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
         middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
-        lower_75_times = all_times[:(repetitions//4)*3]
+        bottom_75 = all_times[:-repetitions//10]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
-        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
+        avg_bottom_75 = sum(bottom_75)/len(bottom_75)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_bottom_75))
 
 print("\ndone\n")
 
@@ -206,15 +211,14 @@ def prepare_nested_left_join_query(limit, joins):
 
 print("*****Sequential left join*****")
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg Bottom 75"))
 
-repetitions = 100
-for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
-    # Create connection to dbpedia
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    # Get the output in JSON format for easy parsing
-    sparql.setReturnFormat(JSON)
-    for joins in [1, 2, 3, 4, 5]:
+# Create connection to dbpedia
+sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+# Get the output in JSON format for easy parsing
+sparql.setReturnFormat(JSON)
+for limit in limits_list:
+    for joins in joins_list:
 
         sparql.setQuery(prepare_sequential_left_join_query(limit, joins))
         # Do one query to get the number of matches returned
@@ -230,26 +234,25 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
         middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
-        lower_75_times = all_times[:(repetitions//4)*3]
+        bottom_75 = all_times[:-repetitions//10]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
-        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
+        avg_bottom_75 = sum(bottom_75)/len(bottom_75)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))# Sort the times_taken list
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_bottom_75))
 
 print("\ndone\n")
 
 print("*****Nested left join*****")
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg Bottom 75"))
 
-repetitions = 100
-for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
-    # Create connection to dbpedia
-    sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-    # Get the output in JSON format for easy parsing
-    sparql.setReturnFormat(JSON)
-    for joins in [1, 2, 3, 4, 5]:
+# Create connection to dbpedia
+sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+# Get the output in JSON format for easy parsing
+sparql.setReturnFormat(JSON)
+for limit in limits_list:
+    for joins in joins_list:
 
         sparql.setQuery(prepare_nested_left_join_query(limit, joins))
         # Do one query to get the number of matches returned
@@ -265,11 +268,11 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
         middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
-        lower_75_times = all_times[:(repetitions//4)*3]
+        bottom_75 = all_times[:-repetitions//10]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
-        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
+        avg_bottom_75 = sum(bottom_75)/len(bottom_75)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))# Sort the times_taken list
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_bottom_75))
 
 print("\ndone\n")
