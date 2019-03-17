@@ -2,6 +2,9 @@
 *.aux
 *.gz
 
+# Data
+*.xlsx
+
 # VSCode settings folder
 .vscode/
 
