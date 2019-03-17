@@ -11,7 +11,7 @@ joins_list = [1,2,3,4,5] # Which numbers of joins to investigate - between 1 and
 # Full query:
 # PREFIX dbo:<http://dbpedia.org/ontology/>
 # PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-# SELECT ?name, ?sex, ?partnername, ?partnersex
+# SELECT *
 # WHERE {
 #   ?person a dbo:Person .
 #   ?person foaf:name ?name .
@@ -41,16 +41,7 @@ def prepare_inner_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT DISTINCT ?name""")
-
-    # Add the output variables
-    if joins >= 2:
-        string_parts.append(", ?sex")
-    if joins >= 4:
-        string_parts.append(", ?partnername")
-    if joins == 5:
-        string_parts.append(", ?partnersex")
-    string_parts.append("\n")
+    SELECT DISTINCT *\n""")
 
     # Add the queries 
     string_parts.append("""WHERE {
@@ -109,7 +100,7 @@ print("\ndone\n")
 # Full query:
 # PREFIX dbo:<http://dbpedia.org/ontology/>
 # PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-# SELECT ?name, ?sex, ?partnername, ?partnersex
+# SELECT *
 # WHERE {
 #   ?person a dbo:Person
 #   OPTIONAL { ?person foaf:name ?name }
@@ -138,16 +129,7 @@ def prepare_sequential_left_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT DISTINCT ?name""")
-
-    # Add the output variables
-    if joins >= 2:
-        string_parts.append(", ?sex")
-    if joins >= 4:
-        string_parts.append(", ?partnername")
-    if joins == 5:
-        string_parts.append(", ?partnersex")
-    string_parts.append("\n")
+    SELECT DISTINCT *\n""")
 
     # Add the queries 
     string_parts.append("""WHERE {
@@ -177,16 +159,7 @@ def prepare_nested_left_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT DISTINCT ?name""")
-
-    # Add the output variables
-    if joins >= 2:
-        string_parts.append(", ?sex")
-    if joins >= 4:
-        string_parts.append(", ?partnername")
-    if joins == 5:
-        string_parts.append(", ?partnersex")
-    string_parts.append("\n")
+    SELECT DISTINCT *\n""")
 
     # Add the queries 
     string_parts.append("""WHERE {
