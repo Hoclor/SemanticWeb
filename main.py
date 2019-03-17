@@ -65,7 +65,7 @@ def prepare_inner_join_query(limit, joins):
 
 print('*****Inner join*****')
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
 
 repetitions = 1000
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
@@ -206,7 +206,7 @@ def prepare_nested_left_join_query(limit, joins):
 
 print("*****Sequential left join*****")
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
 
 repetitions = 100
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
@@ -241,7 +241,7 @@ print("\ndone\n")
 
 print("*****Nested left join*****")
 
-print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 75 times"))
 
 repetitions = 100
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
