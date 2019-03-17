@@ -65,9 +65,9 @@ def prepare_inner_join_query(limit, joins):
 
 print('*****Inner join*****')
 
-print("{:10}, {:5}, {:10}, {:10} ".format("Limit", "Joins", "Results", "Average Time"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
 
-repetitions = 100
+repetitions = 1000
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
     # Create connection to dbpedia
     sparql = SPARQLWrapper("http://dbpedia.org/sparql")
@@ -87,10 +87,14 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Sort the times_taken list
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
-        times_taken = times_taken[(repetitions//10):(repetitions//10)*9]
-        time_taken = sum(times_taken)/len(times_taken)
+        all_times =  times_taken
+        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        lower_75_times = all_times[:(repetitions//4)*3]
+        avg_all = sum(all_times)/len(all_times)
+        avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
+        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:10} ".format(limit, joins, num_results, time_taken))
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))
 
 print("\ndone\n")
 
@@ -202,7 +206,7 @@ def prepare_nested_left_join_query(limit, joins):
 
 print("*****Sequential left join*****")
 
-print("{:10}, {:5}, {:10}, {:10} ".format("Limit", "Joins", "Results", "Average Time"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
 
 repetitions = 100
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
@@ -224,16 +228,20 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Sort the times_taken list
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
-        times_taken = times_taken[(repetitions//10):(repetitions//10)*9]
-        time_taken = sum(times_taken)/len(times_taken)
+        all_times =  times_taken
+        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        lower_75_times = all_times[:(repetitions//4)*3]
+        avg_all = sum(all_times)/len(all_times)
+        avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
+        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:10} ".format(limit, joins, num_results, time_taken))
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))# Sort the times_taken list
 
 print("\ndone\n")
 
 print("*****Nested left join*****")
 
-print("{:10}, {:5}, {:10}, {:10} ".format("Limit", "Joins", "Results", "Average Time"))
+print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format("Limit", "Joins", "Results", "Avg all times", "Avg mid 50 times", "Avg lower 50 times"))
 
 repetitions = 100
 for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
@@ -255,9 +263,13 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         # Sort the times_taken list
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
-        times_taken = times_taken[(repetitions//10):(repetitions//10)*9]
-        time_taken = sum(times_taken)/len(times_taken)
+        all_times =  times_taken
+        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        lower_75_times = all_times[:(repetitions//4)*3]
+        avg_all = sum(all_times)/len(all_times)
+        avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
+        avg_lower_75 = sum(lower_75_times)/len(lower_75_times)
         # Print the results
-        print("{:10}, {:5}, {:10}, {:10} ".format(limit, joins, num_results, time_taken))
+        print("{:10}, {:5}, {:10}, {:5}, {:5}, {:5} ".format(limit, joins, num_results, avg_all, avg_mid_50, avg_lower_75))# Sort the times_taken list
 
 print("\ndone\n")
