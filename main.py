@@ -50,6 +50,11 @@ print("{:10}, {:5}, {:10}, {:10} ".format("Limit", "Joins", "Results", "Average 
 repetitions = 100
 for limit in [125, 250, 500, 1000, 2000]:
     for joins in [1, 2, 3, 4, 5]:
+        # Create connection to dbpedia
+        sparql = SPARQLWrapper("http://dbpedia.org/sparql")
+        # Get the output in JSON format for easy parsing
+        sparql.setReturnFormat(JSON)
+
         sparql.setQuery(prepare_query(limit, joins))
         # Do one query to get the number of matches returned
         num_results = len(sparql.query().convert()["results"]["bindings"]) 
@@ -92,7 +97,7 @@ print("done")
 
 # Second experimentation: number of joins performed (1, 2, 3, 4, 5)
 
-# Second join: left join (optional)
+# Second join: left join (optional) WIP TODO
 
 # Full query:
 # PREFIX dbo:<http://dbpedia.org/ontology/>
