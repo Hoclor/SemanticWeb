@@ -88,7 +88,7 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
-        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
         lower_75_times = all_times[:(repetitions//4)*3]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
@@ -229,7 +229,7 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
-        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
         lower_75_times = all_times[:(repetitions//4)*3]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
@@ -264,7 +264,7 @@ for limit in [125, 250, 500, 1000, 2000, 4000, 8000]:
         times_taken = sorted(times_taken)
         # Discard the bottom and upper quartiles of time values, as higher/lower values are likely to be outliers due to network connectivity issues. This will return a much better estimate for avg time taken
         all_times =  times_taken
-        middle_50_times = all_times[(repetitions//4):(repeitions//4)*3]
+        middle_50_times = all_times[(repetitions//4):(repetitions//4)*3]
         lower_75_times = all_times[:(repetitions//4)*3]
         avg_all = sum(all_times)/len(all_times)
         avg_mid_50 = sum(middle_50_times)/len(middle_50_times)
