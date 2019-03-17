@@ -36,7 +36,7 @@ def prepare_inner_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT ?name""")
+    SELECT DISTINCT ?name""")
 
     # Add the output variables
     if joins >= 2:
@@ -129,7 +129,7 @@ def prepare_sequential_left_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT ?name""")
+    SELECT DISTINCT ?name""")
 
     # Add the output variables
     if joins >= 2:
@@ -168,7 +168,7 @@ def prepare_nested_left_join_query(limit, joins):
     string_parts.append("""
     PREFIX dbo:<http://dbpedia.org/ontology/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    SELECT ?name""")
+    SELECT DISTINCT ?name""")
 
     # Add the output variables
     if joins >= 2:
