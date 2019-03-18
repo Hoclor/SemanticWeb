@@ -1,6 +1,9 @@
 # LaTeX files
 *.aux
 *.gz
+*.bbl
+*.blg
+*.out
 
 # Data
 *.xlsx
