@@ -117,7 +117,7 @@ def prepare_nested_left_join_query(limit, joins):
 # }
 # LIMIT 2000
 
-# Each query carried out 100 times and wall clock time was averaged to try to increase accuracy of results
+# Each query carried out 100 times, top and bottom 25% removed, then wall clock time averaged to try to increase accuracy of results
 # Results still very varied due to nature of networks, connectivity, etc.
 
 # First experimentation: LIMIT value (2000, 4000, 6000, 8000, 10000)
